@@ -1,9 +1,11 @@
 [vars]
-w = 0.25
+# can tune these parameters based on the requirements
+
+w = 0.5
 heads = 2
 
-generation = 30
-population = 15
+generation = 50
+population = 70
 selection = 0.2
 crossover = 0.8
-mutation = 0.02
+mutation = 0.01

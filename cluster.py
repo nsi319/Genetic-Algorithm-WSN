@@ -36,7 +36,7 @@ class Clustering:
         D = 0
         N = len(genes)
         for i in range(N):
-            if genes[i]>=0.8:
+            if genes[i]>=0.5:
                 heads.append(i)
                 head_to_sink.append(math.sqrt(pow(self.data.iloc[i][0],2) + pow(self.data.iloc[i][1],2)))
                 distance_to_head_list[i] = 0
@@ -47,7 +47,7 @@ class Clustering:
         H = len(heads)
     
         for i in range(N):
-            if genes[i]<0.8:
+            if genes[i]<0.5:
                 x,y = self.data.iloc[i]
                 dmin = 10000000
                 chosen_cluster = 0
@@ -106,7 +106,7 @@ class Clustering:
         D = 0
         N = len(genes)
         for i in range(N):
-            if genes[i]>=0.8:
+            if genes[i]>=0.5:
                 heads.append(i)
                 head_to_sink.append(math.sqrt(pow(self.data.iloc[i][0],2) + pow(self.data.iloc[i][1],2)))
                 distance_to_head_list[i] = 0
@@ -117,7 +117,7 @@ class Clustering:
         H = len(heads)
 
         for i in range(N):
-            if genes[i]<0.8:
+            if genes[i]<0.5:
                 x,y = self.data.iloc[i]
                 dmin = 10000000
                 chosen_cluster = 0
@@ -154,7 +154,7 @@ class Clustering:
         print("Reduction in energy: {0:.2f}%".format((1/accuracy)*100))
         print("Fitness Score: {0:.4f}".format(fitness))
         print("Alloted Clusters:", cluster_index)
-    
+
 
     def output_result(self):
         print("--------------------------------------------------------------------")
@@ -165,6 +165,13 @@ class Clustering:
         fig, ax = plt.subplots()
         for i in range(len(self.final_cluster_heads)):
             ax.annotate("head", (self.final_cluster_heads[i][0], self.final_cluster_heads[i][1]))
+            plt.plot(self.final_cluster_heads[i][0],self.final_cluster_heads[i][1],marker='^', color='r', markersize=12)
+            plt.plot([0,self.final_cluster_heads[i][0],], [0,self.final_cluster_heads[i][1],],color='k',linestyle='dashed',linewidth=0.8)
+            for j in range(len(self.best_cluster)):
+                if self.best_cluster[j]==i:
+                    plt.plot([self.data.iloc[j][0],self.final_cluster_heads[i][0],], [self.data.iloc[j][1],self.final_cluster_heads[i][1],],color='b',linewidth=0.5)
+
+
         ax.annotate("sink",(0,0))
         plt.scatter(self.data.iloc[:][0],self.data.iloc[:][1], c=self.best_cluster,cmap='rainbow')
         plt.scatter([0],[0],c=['black'])

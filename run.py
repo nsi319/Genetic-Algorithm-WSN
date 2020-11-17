@@ -44,10 +44,8 @@ if __name__ == '__main__':
     clustering = Clustering(initial, data)  
 
     generation = clustering.calculateGenerationFitness()
-
     while generationCount <= generation_total:
         GA = Genetic(population, pSelection, pMutation, pCrossover, generation, data, generationCount)
         generation, generationCount = GA.geneticProcess(generation)
         clustering.printChromoData(generation.chromosomes[0])
-
     clustering.output_result()
