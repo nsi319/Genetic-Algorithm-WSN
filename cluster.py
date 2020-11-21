@@ -166,9 +166,11 @@ class Clustering:
         print("Cluster Heads: ", self.final_cluster_heads)
 
         print("----------------------------------------------------------")
-        kmeans_cluster(len(self.final_cluster_heads))
-        print("---------------------------------------------------------")
+
+        kmeans_cluster(len(self.final_cluster_heads),0)
         
+        print("---------------------------------------------------------")
+
         fig, ax = plt.subplots()
         for i in range(len(self.final_cluster_heads)):
             ax.annotate("head", (self.final_cluster_heads[i][0], self.final_cluster_heads[i][1]))
