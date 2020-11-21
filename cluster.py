@@ -11,6 +11,8 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn import preprocessing
 from scipy.spatial import distance
 
+from kmeans import kmeans_cluster
+
 
 pd.options.mode.chained_assignment = None
 class Clustering:
@@ -151,17 +153,22 @@ class Clustering:
         
         self.max_fitness = max(self.max_fitness, fitness)
         self.max_acc = max(self.max_acc, accuracy)
-        print("Reduction in energy: {0:.2f}%".format((1/accuracy)*100))
+        print("Reduction in energy: {0:.2f}%".format(100-(1/accuracy)*100))
         print("Fitness Score: {0:.4f}".format(fitness))
         print("Alloted Clusters:", cluster_index)
 
 
     def output_result(self):
         print("--------------------------------------------------------------------")
-        print("Max achieved Reduction in Energy {0:.2f}%".format((1/self.max_acc)*100))
+        print("Max achieved Reduction in Energy {0:.2f}%".format(100-(1/self.max_acc)*100))
         print("Maximum fitness score achieved: {0:.4f}".format(self.max_fitness))
         print("Best Cluster Prediction: ", self.best_cluster)
         print("Cluster Heads: ", self.final_cluster_heads)
+
+        print("----------------------------------------------------------")
+        kmeans_cluster(len(self.final_cluster_heads))
+        print("---------------------------------------------------------")
+        
         fig, ax = plt.subplots()
         for i in range(len(self.final_cluster_heads)):
             ax.annotate("head", (self.final_cluster_heads[i][0], self.final_cluster_heads[i][1]))
