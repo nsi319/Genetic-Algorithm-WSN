@@ -9,7 +9,7 @@ import pandas as pd
 import math
 
 
-def kmeans_cluster(cluster,large=0):
+def kmeans_cluster(cluster,large):
     if large==1:
         data = pd.read_csv('data/points_large.csv', header=None)
     else:
@@ -31,6 +31,8 @@ def kmeans_cluster(cluster,large=0):
     d = 0
     for i in range(N):
         d = d + pow(data.iloc[i][0] - centroids[labels[i]][0],2) + pow(data.iloc[i][1]- centroids[labels[i]][1],2)
+    for i in range(len(centroids)):
+        d = d + pow(centroids[i][0],2) + pow(centroids[i][1],2)
     
     print("Max achieved Reduction in Energy (k-means): {:0.2f}%".format(100-(d/D)*100))
 

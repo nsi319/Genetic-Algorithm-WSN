@@ -23,7 +23,6 @@ class Genetic:
         print("\n")
         print("----------------------Generation Number: ",self.generationCount, "----------------------------")
         generation.sortChromosomes()
-
         generation = self.selection(generation)
         generation = self.crossover(generation)
         generation = self.mutation(generation)
@@ -66,10 +65,18 @@ class Genetic:
         cut = random.randint(1, length - 1)
         parent1 = chromo[index[i]]
         parent2 = chromo[index[i + 1]]
+        print("Performing selection to select two of the most fittest chromosomes")
+        print("Genes of parent 1: ", parent1.genes)
+        print("Genes of parent 2: ", parent2.genes)
+        print("Performing crossover between them...")
+        print("\n")
         genesChild1 = parent1.genes[0:cut] + parent2.genes[cut:length]
         genesChild2 = parent1.genes[cut:length] + parent2.genes[0:cut]
         child1 = Chromosome(genesChild1, len(genesChild1))
         child2 = Chromosome(genesChild2, len(genesChild2))
+
+        print("Genes of child 1: ", child1.genes)
+        print("Genes of child 2: ", child2.genes)
 
         clustering = Clustering(generation, self.data)
         child1 = clustering.calculateFitnessChild(child1)
@@ -83,7 +90,7 @@ class Genetic:
 
         temp = sorted(temp, reverse=True,
                        key=lambda elem: elem.fitness)
-
+        
         generation.chromosomes[index[i]] = temp[0]
         generation.chromosomes[index[i + 1]] = temp[1]
 

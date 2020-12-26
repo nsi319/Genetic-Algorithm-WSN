@@ -5,7 +5,7 @@ w = 0.15
 heads = 2
 
 generation = 70
-population = 30
+population = 40
 selection = 0.2
 crossover = 0.8
 mutation = 0.01
