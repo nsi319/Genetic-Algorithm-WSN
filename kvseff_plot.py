@@ -22,13 +22,31 @@ def kmeans_plot(cluster):
     clf.fit_predict(data)
     labels = clf.labels_.tolist()
     centroids = clf.cluster_centers_.tolist()
+    node_centroids = []
+
+    for i in range(len(centroids)):
+        dist=[]
+        for j in range(N):
+            x1 = data.iloc[j][0]
+            y1 = data.iloc[j][1]
+            x2 = centroids[i][0]
+            y2 = centroids[i][1]
+            dist.append((pow(x1-x2,2) + pow(y1-y2,2),j))
+        dist = sorted(dist,key=lambda d: d[0])
+        j = dist[0][1]
+        x_c = data.iloc[j][0]
+        y_c = data.iloc[j][1]
+        node_centroids.append((x_c,y_c))
+    
     d = 0
     for i in range(N):
-        d = d + pow(data.iloc[i][0] - centroids[labels[i]][0],2) + pow(data.iloc[i][1]- centroids[labels[i]][1],2)
-    for i in range(cluster):
-        d = d + pow(centroids[i][0],2) + pow(centroids[i][1],2)
+        d = d + pow(data.iloc[i][0] - node_centroids[labels[i]][0],2) + pow(data.iloc[i][1]- node_centroids[labels[i]][1],2)
     
-    print("Energy reduction (k-means): {:0.2f}%".format(100-(d/D)*100))
+    node_centroids = list(set(node_centroids))
+    for i in range(len(node_centroids)):
+        d = d + pow(node_centroids[i][0],2) + pow(node_centroids[i][1],2)
+    
+    print("Max achieved Reduction in Energy (k-means): {:0.2f}%".format(100-(d/D)*100))
     return 100-(d/D)*100
 
 k_value = []
@@ -38,9 +56,10 @@ for i in range(2,8):
     eff.append(kmeans_plot(i))
 
 best_k = eff.index(max(eff)) + 2
-print(best_k)
+print("Best K: ",best_k)
 plt.plot(k_value,eff)
 plt.xlabel("k Value")
 plt.ylabel("Reduction in Energy %")
+plt.title("K vs Efficiency Plot")
 plt.show()
 kmeans_cluster(best_k,0)

@@ -2,9 +2,11 @@ import configparser
 import numpy as np
 import pandas as pd
 
+
 from cluster import Clustering
 from genetic import Genetic
 from generation import Generation
+import argparse
 
 def readVars(config_file):
     config = configparser.ConfigParser()
@@ -19,8 +21,23 @@ def readVars(config_file):
 
 
 if __name__ == '__main__':
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-dataset", "--dataset", required=False, default="small", help="Specify the dataset, should be small or large")
+    args = vars(ap.parse_args())
+
+    dataset = str(args['dataset']) 
+ 
     config_file = "config.txt"
-    data = pd.read_csv('data/points.csv', header=None)
+    if dataset=="small":
+        data = pd.read_csv('data/points.csv', header=None)
+    elif dataset=="large":
+        data = pd.read_csv('data/points_large.csv', header=None)
+    else:
+        raise ValueError(
+                "`dataset` should be small or large"
+            )
+
+
     dim = data.shape[1]
 
     generationCount = 0
@@ -48,4 +65,5 @@ if __name__ == '__main__':
         GA = Genetic(population, pSelection, pMutation, pCrossover, generation, data, generationCount)
         generation, generationCount = GA.geneticProcess(generation)
         clustering.printChromoData(generation.chromosomes[0])
-    clustering.output_result()
+
+    clustering.output_result(dataset)

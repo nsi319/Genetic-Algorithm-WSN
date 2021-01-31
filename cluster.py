@@ -158,16 +158,16 @@ class Clustering:
         print("Alloted Clusters:", cluster_index)
 
 
-    def output_result(self):
+    def output_result(self, dataset="small"):
         print("--------------------------------------------------------------------")
-        print("Max achieved Reduction in Energy {0:.2f}%".format(100-(1/self.max_acc)*100))
+        print("Max achieved Reduction in Energy (GA): {0:.2f}%".format(100-(1/self.max_acc)*100))
         print("Maximum fitness score achieved: {0:.4f}".format(self.max_fitness))
         print("Best Cluster Prediction: ", self.best_cluster)
         print("Cluster Heads: ", self.final_cluster_heads)
 
         print("----------------------------------------------------------")
 
-        kmeans_cluster(len(self.final_cluster_heads),0)
+        kmeans_cluster(len(self.final_cluster_heads),dataset)
         
         print("---------------------------------------------------------")
 
@@ -184,4 +184,5 @@ class Clustering:
         ax.annotate("sink",(0,0))
         plt.scatter(self.data.iloc[:][0],self.data.iloc[:][1], c=self.best_cluster,cmap='rainbow')
         plt.scatter([0],[0],c=['black'])
+        plt.title("Genetic Algorithm clustering")
         plt.show()
